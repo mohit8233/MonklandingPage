@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import Logo from '../../assets/logo/Logo.svg'
+import Logo from '../../assets/logo/logo.svg'
 const navLinks = [
   { name: "Home", href: "#home" },
   { name: "Services", href: "#services" },
