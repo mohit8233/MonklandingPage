@@ -11,7 +11,7 @@ const portfolio = [
     image:
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80",
     title: "Business Website",
-    category: "Web Development",
+    category: "Web Dev",
   },
   {
     id: 3,

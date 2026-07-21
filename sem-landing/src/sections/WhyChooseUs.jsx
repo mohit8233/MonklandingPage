@@ -1,99 +1,143 @@
 import { motion } from "framer-motion";
-import FeatureCard from "../components/ui/FeatureCard";
 import Monk from "../assets/images/Monk-Laptop.png";
+import FeatureCard from "../components/ui/FeatureCard";
 
 const features = [
-  {
-    title: "Experienced Team",
-    description:
-      "Our certified experts deliver measurable business growth using proven digital strategies.",
-  },
-  {
-    title: "Result Driven",
-    description:
-      "Everything we build is focused on increasing traffic, leads and revenue.",
-  },
-  {
-    title: "AI Powered",
-    description:
-      "We automate business processes using AI tools and smart workflows.",
-  },
-  {
-    title: "24/7 Support",
-    description:
-      "Dedicated support team always available whenever you need assistance.",
-  },
+    {
+        title: "Experienced Team",
+        description:
+            "Certified experts delivering measurable growth with modern digital strategies.",
+    },
+    {
+        title: "Result Driven",
+        description:
+            "Every campaign is optimized to maximize ROI and generate quality leads.",
+    },
+    {
+        title: "AI Solutions",
+        description:
+            "AI automation that saves time and improves productivity.",
+    },
+    {
+        title: "24/7 Support",
+        description:
+            "Friendly support team available whenever you need us.",
+    },
 ];
 
 function WhyChooseUs() {
-  return (
-    <section
-      id="about"
-      className="bg-[#E6F3EA] py-24 overflow-hidden"
-    >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    return (
+        <section
+            id="about"
+            className="relative overflow-hidden bg-[#F7FBF8] py-20"
+        >
+            {/* Background */}
+            <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-[#BCD0C5]/30 blur-[120px]" />
+            <div className="absolute right-0 bottom-0 h-72 w-72 rounded-full bg-[#65C18C]/10 blur-[120px]" />
 
-        <div className="grid items-center gap-16 lg:grid-cols-2">
+            <div className="relative mx-auto max-w-7xl px-5">
 
-          {/* Left */}
+                {/* Heading */}
 
-          <motion.div
-            initial={{ opacity: 0, x: -80 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: .8 }}
-            className="relative flex justify-center"
-          >
-            <div className="absolute h-[420px] w-[420px] rounded-full bg-white/50 blur-3xl"></div>
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: .7 }}
+                    className="mx-auto max-w-3xl text-center"
+                >
 
-            <img
-              src={Monk}
-              alt=""
-              className="relative z-10 w-full max-w-md lg:max-w-lg"
-            />
-          </motion.div>
+                    <span className="inline-flex rounded-full bg-[#EAF5EF] px-5 py-2 text-sm font-semibold text-[#3D3B3B]">
+                        ⭐ WHY CHOOSE US
+                    </span>
 
-          {/* Right */}
+                    <h2 className="mt-6 text-3xl font-bold text-[#3D3B3B] sm:text-4xl lg:text-5xl">
+                        Grow Faster With
+                        <span className="text-[#65C18C]"> Search Engine Monks</span>
+                    </h2>
 
-          <motion.div
-            initial={{ opacity: 0, x: 80 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: .8 }}
-          >
-            <span className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#555555]">
-              WHY CHOOSE US
-            </span>
+                    <p className="mt-6 text-gray-600 leading-8">
+                        We combine SEO, Branding, Web Development, Performance Marketing
+                        and AI Solutions to help businesses generate more traffic,
+                        conversions and revenue.
+                    </p>
 
-            <h2 className="mt-6 text-4xl font-bold text-[#555555] md:text-5xl">
-              We Build Digital
-              <span className="block text-[#555555]">
-                Success Stories
-              </span>
-            </h2>
+                </motion.div>
 
-            <p className="mt-6 text-lg leading-8 text-gray-700">
-              Search Engine Monks helps businesses grow with
-              SEO, Web Development, Branding, AI Automation
-              and Digital Marketing solutions tailored to your goals.
-            </p>
+                {/* Content */}
 
-            <div className="mt-10 grid gap-6 sm:grid-cols-2">
-              {features.map((item, index) => (
-                <FeatureCard
-                  key={index}
-                  title={item.title}
-                  description={item.description}
-                />
-              ))}
+                <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
+
+                    {/* Image */}
+
+                    <motion.div
+                        initial={{ opacity: 0, x: -80 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="relative flex items-center justify-center"
+                    >
+                        {/* Yellow Outer Circle */}
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{
+                                duration: 30,
+                                repeat: Infinity,
+                                ease: "linear",
+                            }}
+                            className="absolute z-0 h-[470px] w-[470px] rounded-full border-[5px] border-[#D4A017] border-r-transparent"
+                        />
+
+                        {/* Green Inner Circle */}
+                        <motion.div
+                            animate={{ rotate: -360 }}
+                            transition={{
+                                duration: 18,
+                                repeat: Infinity,
+                                ease: "linear",
+                            }}
+                            className="absolute z-0 h-[410px] w-[410px] rounded-full border-[12px] border-[#2F855A]"
+                        />
+
+                        {/* Glow */}
+                        <div className="absolute z-0 h-[320px] w-[320px] rounded-full bg-[#BCD0C5]/30 blur-[90px]" />
+
+                        {/* Monk Image */}
+                        <motion.img
+                            src={Monk}
+                            alt="Search Engine Monks"
+                            animate={{
+                                y: [0, -12, 0],
+                            }}
+                            transition={{
+                                repeat: Infinity,
+                                duration: 4,
+                                ease: "easeInOut",
+                            }}
+                            className="relative z-10 w-full max-w-[500px] object-contain"
+                        />
+                    </motion.div>
+
+                    {/* Cards */}
+
+                    <div className="grid gap-5 sm:grid-cols-2">
+
+                        {features.map((item, index) => (
+                            <FeatureCard
+                                key={index}
+                                title={item.title}
+                                description={item.description}
+                            />
+                        ))}
+
+                    </div>
+
+                </div>
+
             </div>
-          </motion.div>
 
-        </div>
-
-      </div>
-    </section>
-  );
+        </section>
+    );
 }
 
 export default WhyChooseUs;

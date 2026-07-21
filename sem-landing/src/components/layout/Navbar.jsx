@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Logo from '../../assets/logo/logo.svg'
+import Button from "../../components/ui/Button";
 const navLinks = [
   { name: "Home", href: "#home" },
   { name: "Services", href: "#services" },
@@ -61,14 +62,17 @@ function Navbar() {
 
         {/* CTA */}
 
-        <div className="hidden lg:block">
-          <a
-            href="#contact"
-            className="rounded-full bg-green-200 px-7 py-3 font-semibold text-black transition hover:bg-[#276749]"
-          >
-            Book Free Consultation
-          </a>
-        </div>
+      <div className="hidden lg:block">
+  <Button
+    onClick={() =>
+      document
+        .getElementById("contact")
+        ?.scrollIntoView({ behavior: "smooth" })
+    }
+  >
+    Book Free Consultation
+  </Button>
+</div>
 
         {/* Mobile */}
 

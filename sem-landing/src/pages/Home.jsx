@@ -6,8 +6,9 @@ import Stats from "../sections/Stats";
 import Portfolio from "../sections/Portfolio";
 import Testimonials from "../sections/Testimonials";
 import GooglePartner from "../sections/GooglePartner";
-import Contact from "../sections/Contact";
+import  Contact  from "../sections/Contact";
 import Footer from "../components/layout/Footer";
+import FAQ from "../sections/FAQ";
 
 function Home() {
   return (
@@ -22,7 +23,8 @@ function Home() {
         <Portfolio />
         <Testimonials />
         <GooglePartner />
-        <Contact />
+        <FAQ/>
+        <Contact/>
       </main>
 
       <Footer />

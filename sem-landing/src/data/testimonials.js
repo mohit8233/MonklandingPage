@@ -1,30 +1,27 @@
 const testimonials = [
   {
     id: 1,
-    name: "John Anderson",
-    company: "Tech Solutions",
+    name: "John Smith",
+    company: "TechNova",
     image: "https://randomuser.me/api/portraits/men/32.jpg",
     review:
-      "Search Engine Monks transformed our online presence. Traffic increased by 250% within just a few months.",
-    rating: 5,
+      "Search Engine Monks transformed our online presence. Within 3 months our organic traffic increased by over 200%.",
   },
   {
     id: 2,
-    name: "Sarah Williams",
-    company: "Creative Studio",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    name: "Emily Johnson",
+    company: "Growthify",
+    image: "https://randomuser.me/api/portraits/women/45.jpg",
     review:
-      "Amazing team! Their SEO and web development services helped us generate more qualified leads.",
-    rating: 5,
+      "Amazing team with excellent communication. They redesigned our website and significantly improved conversions.",
   },
   {
     id: 3,
     name: "Michael Brown",
-    company: "E-Commerce Store",
-    image: "https://randomuser.me/api/portraits/men/65.jpg",
+    company: "Startup Hub",
+    image: "https://randomuser.me/api/portraits/men/51.jpg",
     review:
-      "Professional, creative and result-driven. Highly recommended for businesses looking to scale.",
-    rating: 5,
+      "Professional, creative and result-driven. Their SEO strategy helped us rank on Google's first page.",
   },
 ];
 

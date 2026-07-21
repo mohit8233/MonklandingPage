@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+// import { ArrowRight } from "lucide-react";
+import Button from "../components/ui/Button";
 
 function HeroContent() {
   return (
@@ -25,16 +26,32 @@ function HeroContent() {
         We help businesses increase leads, sales, and online visibility through websites, SEO, branding, and performance marketing.
       </p>
 
-      <div className="flex flex-wrap gap-4">
-        <button className="rounded-full bg-[#10ae7c] px-7 py-3 font-semibold text-black transition hover:bg-[#276749]">
-          Book Free Consultation
-        </button>
 
-        <button className="flex items-center gap-2 rounded-full border border-[#555555] px-7 py-3 font-semibold text-[#555555] hover:bg-[#2F855A] hover:text-black transition">
-          Our Services
-          <ArrowRight size={18} />
-        </button>
-      </div>
+<div className="flex flex-wrap gap-4">
+  <Button
+    onClick={() =>
+      document
+        .getElementById("contact")
+        ?.scrollIntoView({ behavior: "smooth" })
+    }
+  >
+    Book Free Consultation
+  </Button>
+
+  <Button
+    onClick={() =>
+      document
+        .getElementById("services")
+        ?.scrollIntoView({ behavior: "smooth" })
+    }
+    className="border border-[#555555] bg-transparent text-[#555555] hover:bg-[#65C18C] hover:text-white"
+  >
+    <span className="flex items-center gap-2">
+      Our Services
+      
+    </span>
+  </Button>
+</div>
 
       <div className="flex items-center gap-4 pt-4">
         <div className="flex -space-x-3">

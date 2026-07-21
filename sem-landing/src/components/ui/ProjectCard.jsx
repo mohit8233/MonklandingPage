@@ -2,60 +2,56 @@ import { motion } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
 
 function ProjectCard({ project }) {
-  return (
-    <motion.div
-      whileHover={{ y: -10 }}
-      transition={{ duration: 0.4 }}
-      className="group relative overflow-hidden rounded-[28px] bg-white shadow-lg"
-    >
-      {/* Image */}
+    return (
+        <motion.div
+            layout
+            whileHover={{ y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="group overflow-hidden rounded-[28px] border border-[#E7ECE9] bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+        >
+            {/* Image */}
+            <div className="relative overflow-hidden">
+                <img
+                    src={project.image}
+                    alt={project.title}
+                    className="h-60 w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
 
-      <div className="overflow-hidden">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="h-[260px] w-full object-cover transition duration-700 group-hover:scale-110"
-        />
-      </div>
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 transition duration-500 group-hover:opacity-100"></div>
 
-      {/* Category */}
+                {/* Category */}
+                <span className="absolute left-5 top-5 rounded-full bg-[#BCD0C5] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#3D3B3B] shadow-lg">
+                    {project.category}
+                </span>
+            </div>
 
-      <span className="absolute left-5 top-5 rounded-full bg-[#2F855A] px-4 py-2 text-xs font-semibold text-[#555555] shadow-lg">
-        {project.category}
-      </span>
+            {/* Content */}
+            <div className="p-6">
+                <h3 className="text-2xl font-bold text-[#3D3B3B] transition-colors duration-300 group-hover:text-[#65C18C]">
+                    {project.title}
+                </h3>
 
-      {/* Content */}
+                {/* Paragraph */}
+                <p className="mt-4 text-[15px] leading-7 text-gray-600">
+                    {project.description}
+                </p>
 
-      <div className="space-y-4 p-6">
+                {/* Bottom */}
+                <div className="mt-6 flex items-center gap-3">
+                    {/* Small Tag */}
+                    <span className="flex-1 rounded-full border border-[#BCD0C5] bg-[#EEF6F2] px-4 py-2 text-center text-xs font-medium text-[#3D3B3B] transition-all duration-300 hover:bg-[#65C18C] hover:text-white">
+                        {project.category}
+                    </span>
 
-        <h3 className="text-2xl font-bold text-[#555555] transition group-hover:text-[#555555]">
-          {project.title}
-        </h3>
-
-        <p className="text-gray-600 leading-7">
-          Modern digital solution focused on performance,
-          branding and business growth.
-        </p>
-
-        <div className="flex items-center justify-between">
-
-          <button className="font-semibold text-[#555555] transition hover:translate-x-2">
-            View Case Study
-          </button>
-
-          <button className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2F855A] text-[#555555] transition duration-300 group-hover:rotate-45">
-            <FiArrowUpRight size={20} />
-          </button>
-
-        </div>
-
-      </div>
-
-      {/* Hover Overlay */}
-
-      <div className="absolute inset-0 rounded-[28px] border-2 border-transparent transition duration-500 group-hover:border-[#2F855A]/30"></div>
-    </motion.div>
-  );
+                    {/* Arrow */}
+                    <button className="group/btn flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#3D3B3B] text-white transition-all duration-300 hover:scale-110 hover:bg-[#65C18C] hover:shadow-lg hover:shadow-[#65C18C]/40">
+                        <FiArrowUpRight className="text-xl transition-transform duration-300 group-hover/btn:rotate-45" />
+                    </button>
+                </div>
+            </div>
+        </motion.div>
+    );
 }
 
 export default ProjectCard;
