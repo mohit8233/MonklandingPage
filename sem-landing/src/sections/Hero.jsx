@@ -3,6 +3,7 @@ import HeroImage from "../sections/HeroImage";
 
 function Hero() {
   return (
+    
     <section
       id="home"
       className="relative flex min-h-[calc(100vh-80px)] items-center overflow-hidden bg-gradient-to-br from-[#EAF4EE] via-[#8fd1a0] to-[#9fd7b7]"
