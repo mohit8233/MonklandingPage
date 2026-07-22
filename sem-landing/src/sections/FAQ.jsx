@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiPlus, FiMinus } from "react-icons/fi";
-import faqs from "../data/faq";
+import faqs from '../data/faq'
 
 function FAQ() {
   const [active, setActive] = useState(0);

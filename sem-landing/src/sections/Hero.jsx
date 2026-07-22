@@ -1,5 +1,5 @@
-import HeroContent from "../sections/HeroContent";
-import HeroImage from "../sections/HeroImage";
+import HeroContent from "./HeroContent";
+import HeroImage from "./HeroImage";
 
 function Hero() {
   return (

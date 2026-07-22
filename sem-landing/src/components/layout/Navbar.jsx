@@ -1,14 +1,9 @@
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import Logo from '../../assets/logo/logo.svg'
+
+import Logo from "../../assets/logo/logo.svg";
 import Button from "../../components/ui/Button";
-const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "Services", href: "#services" },
-  { name: "Portfolio", href: "#portfolio" },
-  { name: "Testimonials", href: "#testimonials" },
-  { name: "Contact", href: "#contact" },
-];
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -27,55 +22,76 @@ function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
-        scroll
-          ? "bg-white shadow-lg py-3"
-          : "bg-white py-4"
+        scroll ? "bg-white py-3 shadow-lg" : "bg-white py-4"
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5">
-
         {/* Logo */}
-
-        <a href="#home" className="flex items-center gap-2">
-
+        <NavLink to="/" className="flex items-center">
           <img
             src={Logo}
             alt="Search Engine Monks"
             className="h-12"
           />
-
-        </a>
+        </NavLink>
 
         {/* Desktop Menu */}
-
         <nav className="hidden items-center gap-10 lg:flex">
-          {navLinks.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="font-medium text-gray-700 transition hover:text-[#555555]"
-            >
-              {item.name}
-            </a>
-          ))}
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `font-medium transition-colors duration-300 ${
+                isActive
+                  ? "text-[#65C18C]"
+                  : "text-[#3D3B3B] hover:text-[#65C18C]"
+              }`
+            }
+          >
+            Home
+          </NavLink>
+
+          <NavLink
+            to="/services"
+            className={({ isActive }) =>
+              `font-medium transition-colors duration-300 ${
+                isActive
+                  ? "text-[#65C18C]"
+                  : "text-[#3D3B3B] hover:text-[#65C18C]"
+              }`
+            }
+          >
+            Services
+          </NavLink>
+
+          <a
+            href="#portfolio"
+            className="font-medium text-[#3D3B3B] transition-colors duration-300 hover:text-[#65C18C]"
+          >
+            Portfolio
+          </a>
+
+          <a
+            href="#testimonials"
+            className="font-medium text-[#3D3B3B] transition-colors duration-300 hover:text-[#65C18C]"
+          >
+            Testimonials
+          </a>
+
+          <a
+            href="#contact"
+            className="font-medium text-[#3D3B3B] transition-colors duration-300 hover:text-[#65C18C]"
+          >
+            Contact
+          </a>
         </nav>
 
         {/* CTA */}
+        <div className="hidden lg:block">
+          <Button>Book Free Consultation</Button>
+        </div>
 
-      <div className="hidden lg:block">
-  <Button
-    onClick={() =>
-      document
-        .getElementById("contact")
-        ?.scrollIntoView({ behavior: "smooth" })
-    }
-  >
-    Book Free Consultation
-  </Button>
-</div>
-
-        {/* Mobile */}
-
+        {/* Mobile Button */}
         <button
           onClick={() => setOpen(!open)}
           className="lg:hidden"
@@ -85,29 +101,65 @@ function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-
       {open && (
         <div className="border-t bg-white lg:hidden">
           <div className="flex flex-col px-5 py-5">
+            <NavLink
+              to="/"
+              end
+              onClick={() => setOpen(false)}
+              className={({ isActive }) =>
+                `border-b py-4 ${
+                  isActive
+                    ? "text-[#65C18C]"
+                    : "text-[#3D3B3B]"
+                }`
+              }
+            >
+              Home
+            </NavLink>
 
-            {navLinks.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="border-b py-4 text-gray-700"
-              >
-                {item.name}
-              </a>
-            ))}
+            <NavLink
+              to="/services"
+              onClick={() => setOpen(false)}
+              className={({ isActive }) =>
+                `border-b py-4 ${
+                  isActive
+                    ? "text-[#65C18C]"
+                    : "text-[#3D3B3B]"
+                }`
+              }
+            >
+              Services
+            </NavLink>
+
+            <a
+              href="#portfolio"
+              onClick={() => setOpen(false)}
+              className="border-b py-4 text-[#3D3B3B]"
+            >
+              Portfolio
+            </a>
+
+            <a
+              href="#testimonials"
+              onClick={() => setOpen(false)}
+              className="border-b py-4 text-[#3D3B3B]"
+            >
+              Testimonials
+            </a>
 
             <a
               href="#contact"
-              className="mt-5 rounded-full bg-[#555555] py-3 text-center font-semibold text-black"
+              onClick={() => setOpen(false)}
+              className="border-b py-4 text-[#3D3B3B]"
             >
-            Book Free Consultation
+              Contact
             </a>
 
+            <Button className="mt-5 w-full">
+              Book Free Consultation
+            </Button>
           </div>
         </div>
       )}

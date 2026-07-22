@@ -1,32 +1,52 @@
-# 🚀 Search Engine Monks Landing Page Redesign
+# 🚀 Search Engine Monks Website Redesign
 
-A modern, premium, responsive, and high-converting landing page redesign for **Search Engine Monks**, built using **React.js**, **Vite**, **Tailwind CSS**, and **Framer Motion**.
+A modern, premium, responsive, and high-converting website redesign for **Search Engine Monks**, built using **React.js**, **Vite**, **Tailwind CSS**, and **Framer Motion**.
 
 ---
 
 # 📖 Project Overview
 
-The objective of this project is to redesign the Search Engine Monks landing page with a modern UI, smooth animations, responsive layout, and better user experience.
+The objective of this project is to redesign the Search Engine Monks website with a modern UI, smooth animations, responsive layouts, and an improved user experience.
 
-The landing page highlights the company's digital marketing services, SEO, AI solutions, branding, web development, and lead generation services.
+Currently, the project includes:
+
+- 🏠 Home Page
+- 💼 Services Page
+
+The website showcases Search Engine Monks' digital marketing services, SEO, AI solutions, branding, web development, and lead generation services using reusable React components and responsive design.
 
 ---
 
 # 🚀 Tech Stack
 
+### Frontend
+
 - React.js
 - Vite
-- Tailwind CSS
-- Framer Motion
-- React Icons
-- React Toastify
 - JavaScript (ES6+)
+
+### Styling
+
+- Tailwind CSS
+
+### Animation
+
+- Framer Motion
+
+### Icons
+
+- React Icons
+- Lucide React
+
+### Notifications
+
+- React Toastify
 
 ---
 
 # 📁 Project Structure
 
-```
+```text
 search-engine-monks-redesign/
 │
 ├── public/
@@ -40,7 +60,8 @@ search-engine-monks-redesign/
 │   │
 │   ├── components/
 │   │   ├── layouts/
-│   │   │    └── Navbar.jsx
+│   │   │    ├── Navbar.jsx
+│   │   │    └── Footer.jsx
 │   │   │
 │   │   ├── sections/
 │   │   │    ├── Hero.jsx
@@ -51,6 +72,11 @@ search-engine-monks-redesign/
 │   │   │    ├── Testimonials.jsx
 │   │   │    ├── FAQ.jsx
 │   │   │    ├── Contact.jsx
+│   │   │    ├── ServicesHero.jsx
+│   │   │    ├── ServicesGrid.jsx
+│   │   │    ├── ServiceProcess.jsx
+│   │   │    ├── ServiceStats.jsx
+│   │   │    ├── ServiceCTA.jsx
 │   │   │    └── Footer.jsx
 │   │   │
 │   │   └── ui/
@@ -58,12 +84,17 @@ search-engine-monks-redesign/
 │   │        ├── FeatureCard.jsx
 │   │        ├── PortfolioCard.jsx
 │   │        ├── ServiceCard.jsx
+│   │        ├── ServicePageCard.jsx
 │   │        ├── TestimonialCard.jsx
 │   │        ├── LoadingScreen.jsx
 │   │        └── ScrollToTop.jsx
 │   │
+│   ├── data/
+│   │      └── services.js
+│   │
 │   ├── pages/
-│   │      └── Home.jsx
+│   │      ├── Home.jsx
+│   │      └── Services.jsx
 │   │
 │   ├── App.jsx
 │   ├── main.jsx
@@ -79,7 +110,7 @@ search-engine-monks-redesign/
 
 # ⚙️ Project Setup
 
-## 1 Clone Repository
+## 1️⃣ Clone Repository
 
 ```bash
 git clone <repository-url>
@@ -87,7 +118,7 @@ git clone <repository-url>
 
 ---
 
-## 2 Go to Project Folder
+## 2️⃣ Go to Project Folder
 
 ```bash
 cd search-engine-monks-redesign
@@ -95,7 +126,7 @@ cd search-engine-monks-redesign
 
 ---
 
-## 3 Install Dependencies
+## 3️⃣ Install Dependencies
 
 ```bash
 npm install
@@ -103,7 +134,7 @@ npm install
 
 ---
 
-## 4 Install Required Packages
+## 4️⃣ Install Required Packages
 
 ### Framer Motion
 
@@ -117,15 +148,27 @@ npm install framer-motion
 npm install react-icons
 ```
 
+### Lucide React
+
+```bash
+npm install lucide-react
+```
+
 ### React Toastify
 
 ```bash
 npm install react-toastify
 ```
 
+### React Router
+
+```bash
+npm install react-router-dom
+```
+
 ---
 
-## 5 Start Development Server
+## 5️⃣ Start Development Server
 
 ```bash
 npm run dev
@@ -133,7 +176,7 @@ npm run dev
 
 ---
 
-## 6 Production Build
+## 6️⃣ Production Build
 
 ```bash
 npm run build
@@ -141,71 +184,124 @@ npm run build
 
 ---
 
-## 7 Preview Build
+## 7️⃣ Preview Build
 
 ```bash
 npm run preview
 ```
 
 ---
-
 # ✨ Features
 
 ## ✅ Navbar
 
 - Sticky Navigation
 - Responsive Mobile Menu
-- Smooth Scroll Navigation
+- React Router Navigation
+- Smooth Page Navigation
 
 ---
 
-## ✅ Hero Section
+## ✅ Home Page
 
-- Modern Layout
+### Sections
+
+- Hero Section
+- Trusted Section
+- Services Section
+- Why Choose Us
+- Portfolio
+- Testimonials
+- FAQ
+- Contact
+- Footer
+
+### Features
+
+- Modern Hero Layout
 - Responsive Design
 - Animated CTA Buttons
-- Floating Hero Image
-
----
-
-## ✅ Trusted Section
-
-- Trusted Brand Logos
-- Responsive Layout
-
----
-
-## ✅ Services
-
-- Service Cards
+- Smooth Animations
+- Premium UI
 - Hover Effects
-- Responsive Grid
 
 ---
 
-## ✅ Why Choose Us
+## ✅ Services Page
 
-- Animated Monk Image
-- Floating Animation
-- Rotating Circular Borders
-- Glow Effect
-- Feature Cards
+A dedicated Services page has been developed to showcase Search Engine Monks' digital solutions.
 
----
+### Sections
 
-## ✅ Portfolio
+- Services Hero
+- Services Grid
+- Our Process
+- Statistics
+- FAQ
+- Call To Action
+- Footer
 
-- Project Showcase
-- Hover Animation
-- Responsive Cards
+### Features
 
----
-
-## ✅ Testimonials
-
-- Client Reviews
+- Premium Hero Section
 - Responsive Layout
-- Smooth Animation
+- Interactive Service Cards
+- Responsive Services Grid
+- Animated Process Section
+- Statistics Cards
+- Hover Effects
+- Smooth Framer Motion Animations
+- Modern UI Design
+
+---
+
+## ✅ Services Hero
+
+- Responsive Hero Layout
+- Modern Typography
+- CTA Buttons
+- Animated Dashboard Image
+- Floating Information Cards
+- Background Blur Effects
+
+---
+
+## ✅ Services Grid
+
+- Dynamic Service Cards
+- Responsive Grid Layout
+- Hover Effects
+- Reusable Components
+- Modern Card Design
+
+---
+
+## ✅ Our Process
+
+The process section explains the complete workflow followed by Search Engine Monks.
+
+### Workflow
+
+- Discovery
+- Strategy
+- Execution
+- Growth
+
+### Features
+
+- Responsive Layout
+- Animated Process Cards
+- Hover Animations
+- Modern Timeline Style
+
+---
+
+## ✅ Statistics
+
+- Business Statistics
+- Responsive Cards
+- Hover Effects
+- Premium UI
 
 ---
 
@@ -213,14 +309,15 @@ npm run preview
 
 - Accordion Design
 - Expand & Collapse
+- Responsive Layout
 
 ---
 
-## ✅ Contact
+## ✅ Call To Action
 
-- Contact Form
-- Contact Information
-- Toast Notification
+- Responsive CTA Section
+- Action Buttons
+- Modern Layout
 
 ---
 
@@ -229,119 +326,6 @@ npm run preview
 - Company Information
 - Quick Links
 - Social Links
+- Responsive Footer
 
 ---
-
-# 🎨 UI Features
-
-- Modern UI
-- Responsive Design
-- Premium Layout
-- Glass Effect
-- Gradient Background
-- Hover Animation
-- Button Animation
-- Floating Animation
-- Rotating Circle Animation
-- Smooth Transition
-- Blur Effects
-
----
-
-# ⚡ Loading Screen
-
-A custom loading screen is implemented before the website loads.
-
-### Features
-
-- Animated Logo
-- Progress Bar (0% - 100%)
-- Framer Motion Animation
-- Fade In / Fade Out
-- Body Scroll Lock
-- Parent & Child Component Communication
-- Smooth Page Transition
-
----
-
-# 📱 Responsive Design
-
-Optimized For
-
-- Mobile
-- Tablet
-- Laptop
-- Desktop
-
----
-
-# 📦 Packages Used
-
-| Package | Purpose |
-|----------|----------|
-| react | UI Library |
-| vite | Development Tool |
-| tailwindcss | Styling |
-| framer-motion | Animations |
-| react-icons | Icons |
-| react-toastify | Toast Notifications |
-
----
-
-# 🚀 Performance Optimizations
-
-- Reusable Components
-- Clean Folder Structure
-- Optimized Images
-- Responsive Design
-- Component Based Architecture
-- Smooth Animations
-- Fast Rendering
-
----
-
-# 💻 Commands
-
-Install Packages
-
-```bash
-npm install
-```
-
-Run Project
-
-```bash
-npm run dev
-```
-
-Production Build
-
-```bash
-npm run build
-```
-
-Preview Build
-
-```bash
-npm run preview
-```
-
----
-
-# 👨‍💻 Developer
-
-**Mohit Singh Chauhan**
-
-Frontend Developer
-
-- HTML
-- CSS
-- JavaScript
-- React.js
-- Tailwind CSS
-
----
-
-# 📄 License
-
-This project was developed as part of an internship assignment for learning and portfolio purposes.

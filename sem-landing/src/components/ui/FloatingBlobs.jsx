@@ -1,63 +1,43 @@
 import { motion } from "framer-motion";
 
-const blobs = [
-  {
-    size: 300,
-    color: "#65C18C",
-    top: "5%",
-    left: "-5%",
-    duration: 20,
-  },
-  {
-    size: 240,
-    color: "#9FD7B7",
-    top: "60%",
-    right: "-5%",
-    duration: 24,
-  },
-  {
-    size: 220,
-    color: "#7ED4A4",
-    bottom: "8%",
-    left: "25%",
-    duration: 18,
-  },
-  {
-    size: 260,
-    color: "#A9E4C5",
-    top: "20%",
-    right: "25%",
-    duration: 22,
-  },
-];
+const particles = Array.from({ length: 20 }, (_, i) => ({
+  id: i,
+  size: Math.random() * 35 + 18,
+  left: `${Math.random() * 100}%`,
+  top: `${Math.random() * 100}%`,
+  duration: Math.random() * 8 + 10,
+  delay: Math.random() * 5,
+}));
 
 export default function FloatingBlobs() {
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {blobs.map((blob, index) => (
+    <div className="pointer-events-none fixed inset-0 overflow-hidden z-0">
+      {particles.map((particle) => (
         <motion.div
-          key={index}
+          key={particle.id}
           className="absolute rounded-full"
           style={{
-            width: blob.size,
-            height: blob.size,
-            background: blob.color,
-            opacity: 0.25,
-            filter: "blur(100px)",
-            top: blob.top,
-            bottom: blob.bottom,
-            left: blob.left,
-            right: blob.right,
+            width: particle.size,
+            height: particle.size,
+            left: particle.left,
+            top: particle.top,
+            background:
+              "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(188,208,197,0.7) 45%, rgba(101,193,140,0.45) 75%, transparent 100%)",
+            border: "1px solid rgba(255,255,255,0.35)",
+            boxShadow:
+              "0 0 20px rgba(101,193,140,0.25), inset 0 0 10px rgba(255,255,255,0.4)",
+            backdropFilter: "blur(3px)",
           }}
           animate={{
-            x: [0, 50, -40, 0],
-            y: [0, -40, 30, 0],
-            scale: [1, 1.08, 0.94, 1],
+            y: [0, -35, 0],
+            x: [0, 15, -10, 0],
+            scale: [1, 1.08, 0.95, 1],
+            opacity: [0.55, 0.95, 0.7, 0.55],
           }}
           transition={{
-            duration: blob.duration,
+            duration: particle.duration,
+            delay: particle.delay,
             repeat: Infinity,
-            repeatType: "mirror",
             ease: "easeInOut",
           }}
         />

@@ -14,6 +14,7 @@ const services = [
     description:
       "Improve your search rankings and drive organic traffic with proven SEO strategies.",
     icon: FaSearch,
+    tag: "SEO",
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ const services = [
     description:
       "Modern, fast and responsive websites built using the latest technologies.",
     icon: FaCode,
+    tag: "Development",
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ const services = [
     description:
       "Create a powerful brand that builds trust and attracts your audience.",
     icon: FaPaintBrush,
+    tag: "Branding",
   },
   {
     id: 4,
@@ -35,6 +38,7 @@ const services = [
     description:
       "Reach more customers through Google Ads, Social Media and Email Marketing.",
     icon: FaBullhorn,
+    tag: "Marketing",
   },
   {
     id: 5,
@@ -42,6 +46,7 @@ const services = [
     description:
       "Automate your business with AI chatbots, workflows and smart integrations.",
     icon: FaRobot,
+    tag: "AI",
   },
   {
     id: 6,
@@ -49,6 +54,7 @@ const services = [
     description:
       "Analyze, optimize and scale your business with data-driven marketing.",
     icon: FaChartLine,
+    tag: "Growth",
   },
 ];
 
