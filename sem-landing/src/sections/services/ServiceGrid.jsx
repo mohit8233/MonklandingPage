@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import services from '../../data/services'
+import services from "../../data/servicesData";
 import ServicePageCard from "../../components/ui/ServicePageCard";
 // import ServicePageCard from "../components/ui/ServicePageCard";
 

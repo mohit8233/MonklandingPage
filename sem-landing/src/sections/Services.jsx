@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import ServiceCard from "../components/ui/ServiceCard";
-import services from "../data/services";
+import services from "../data/servicesData";
 
 function Services() {
   return (

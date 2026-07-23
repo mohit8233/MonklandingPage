@@ -8,6 +8,7 @@ function Button({
   onClick,
   disabled = false,
   showArrow = true,
+  variant = "primary",
 }) {
   return (
     <motion.button
@@ -27,12 +28,16 @@ function Button({
         justify-center
         overflow-hidden
         rounded-full
-        bg-[#65C18C]
+        
         px-5
         py-3
         text-sm
         font-semibold
-        text-white
+       ${
+  variant === "primary"
+    ? "bg-[#65C18C] text-white"
+    : "border border-[#65C18C] bg-transparent text-[#65C18C] hover:bg-[#65C18C] hover:text-white"
+}
         shadow-lg
         transition-all
         duration-300

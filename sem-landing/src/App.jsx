@@ -3,7 +3,8 @@ import { AnimatePresence } from "framer-motion";
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-
+import ServicesPage from "./pages/Services";
+import ServiceDetail from "./pages/ServiceDetail";
 
 import LoadingScreen from "./components/LoadingScreen";
 // import FloatingBlobs from "./components/ui/FloatingBlobs";
@@ -12,7 +13,6 @@ import MouseRipple from "./components/ui/MouseRipple";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ServicesPage from "./pages/Services";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -34,7 +34,14 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
+
           <Route path="/services" element={<ServicesPage />} />
+
+          {/* Dynamic Service Detail */}
+          <Route
+            path="/services/:slug"
+            element={<ServiceDetail />}
+          />
         </Routes>
 
         <ToastContainer
