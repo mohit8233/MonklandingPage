@@ -13,6 +13,7 @@ import CTA from "../components/serviceDetail/CTA";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
+
 export default function ServiceDetail() {
   const { slug } = useParams();
 
@@ -35,28 +36,31 @@ export default function ServiceDetail() {
     <>
       <Navbar />
 
-      <main className="overflow-hidden bg-white">
-        {/* Hero */}
-        <DetailHero service={service} />
+    <main className="relative overflow-hidden bg-white">
 
-        {/* Overview */}
-        <Overview service={service} />
 
-        {/* Features */}
-        <Features service={service} />
 
-        {/* Benefits */}
-        <Benefits service={service} />
+  {/* Hero */}
+  <DetailHero service={service} />
 
-        {/* Process */}
-        <Process service={service} />
+  {/* Overview */}
+  <Overview service={service} />
 
-        {/* FAQ */}
-        <FAQ service={service} />
+  {/* Features */}
+  <Features service={service} />
 
-        {/* CTA */}
-        <CTA service={service} />
-      </main>
+  {/* Benefits */}
+  <Benefits service={service} />
+
+  {/* Process */}
+  <Process service={service} />
+
+  {/* FAQ */}
+  <FAQ service={service} />
+
+  {/* CTA */}
+  <CTA service={service} />
+</main>
 
       <Footer />
     </>

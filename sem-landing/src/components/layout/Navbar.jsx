@@ -21,9 +21,8 @@ function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
-        scroll ? "bg-white py-3 shadow-lg" : "bg-white py-4"
-      }`}
+      className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${scroll ? "bg-white py-3 shadow-lg" : "bg-white py-4"
+        }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5">
         {/* Logo */}
@@ -41,10 +40,9 @@ function Navbar() {
             to="/"
             end
             className={({ isActive }) =>
-              `font-medium transition-colors duration-300 ${
-                isActive
-                  ? "text-[#65C18C]"
-                  : "text-[#3D3B3B] hover:text-[#65C18C]"
+              `font-medium transition-colors duration-300 ${isActive
+                ? "text-[#65C18C]"
+                : "text-[#3D3B3B] hover:text-[#65C18C]"
               }`
             }
           >
@@ -54,10 +52,9 @@ function Navbar() {
           <NavLink
             to="/services"
             className={({ isActive }) =>
-              `font-medium transition-colors duration-300 ${
-                isActive
-                  ? "text-[#65C18C]"
-                  : "text-[#3D3B3B] hover:text-[#65C18C]"
+              `font-medium transition-colors duration-300 ${isActive
+                ? "text-[#65C18C]"
+                : "text-[#3D3B3B] hover:text-[#65C18C]"
               }`
             }
           >
@@ -71,12 +68,17 @@ function Navbar() {
             Portfolio
           </a>
 
-          <a
-            href="#testimonials"
-            className="font-medium text-[#3D3B3B] transition-colors duration-300 hover:text-[#65C18C]"
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `font-medium transition-colors duration-300 ${isActive
+                ? "text-[#65C18C]"
+                : "text-[#3D3B3B] hover:text-[#65C18C]"
+              }`
+            }
           >
-            Testimonials
-          </a>
+            About
+          </NavLink>
 
           <a
             href="#contact"
@@ -109,10 +111,9 @@ function Navbar() {
               end
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
-                `border-b py-4 ${
-                  isActive
-                    ? "text-[#65C18C]"
-                    : "text-[#3D3B3B]"
+                `border-b py-4 ${isActive
+                  ? "text-[#65C18C]"
+                  : "text-[#3D3B3B]"
                 }`
               }
             >
@@ -123,10 +124,9 @@ function Navbar() {
               to="/services"
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
-                `border-b py-4 ${
-                  isActive
-                    ? "text-[#65C18C]"
-                    : "text-[#3D3B3B]"
+                `border-b py-4 ${isActive
+                  ? "text-[#65C18C]"
+                  : "text-[#3D3B3B]"
                 }`
               }
             >
@@ -141,13 +141,18 @@ function Navbar() {
               Portfolio
             </a>
 
-            <a
-              href="#testimonials"
+            <NavLink
+              to="/about"
               onClick={() => setOpen(false)}
-              className="border-b py-4 text-[#3D3B3B]"
+              className={({ isActive }) =>
+                `border-b py-4 ${isActive
+                  ? "text-[#65C18C]"
+                  : "text-[#3D3B3B]"
+                }`
+              }
             >
-              Testimonials
-            </a>
+              About
+            </NavLink>
 
             <a
               href="#contact"

@@ -150,12 +150,11 @@ export default function DetailHero({ service }) {
                             </Button>
 
                             <Button
-                                showArrow={true}
-                                className="w-full justify-center border border-[#65C18C] bg-transparent text-[#27ba64] hover:bg-[#65C18C] hover:text-white sm:w-auto"
+                                variant="outline"
+                                showArrow
                             >
                                 View Portfolio
                             </Button>
-
                         </motion.div>
 
                     </div>

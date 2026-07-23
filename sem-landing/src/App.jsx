@@ -3,11 +3,11 @@ import { AnimatePresence } from "framer-motion";
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
+import About from "./pages/AboutPage";
 import ServicesPage from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
 
 import LoadingScreen from "./components/LoadingScreen";
-// import FloatingBlobs from "./components/ui/FloatingBlobs";
 import MouseTrail from "./components/ui/MouseTrail";
 import MouseRipple from "./components/ui/MouseRipple";
 
@@ -18,49 +18,48 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     document.body.style.overflow = loading ? "hidden" : "auto";
   }, [loading]);
 
+  if (loading) {
+    return (
+      <AnimatePresence>
+        <LoadingScreen />
+      </AnimatePresence>
+    );
+  }
+
   return (
     <>
-      {/* <FloatingBlobs /> */}
       <MouseTrail />
       <MouseRipple />
 
-      <div
-        className={`transition-opacity duration-700 ${
-          loading ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        <Routes>
-          <Route path="/" element={<Home />} />
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-          <Route path="/services" element={<ServicesPage />} />
+        <Route path="/about" element={<About />} />
 
-          {/* Dynamic Service Detail */}
-          <Route
-            path="/services/:slug"
-            element={<ServiceDetail />}
-          />
-        </Routes>
+        <Route path="/services" element={<ServicesPage />} />
 
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          pauseOnHover
-          draggable
-          theme="colored"
+        <Route
+          path="/services/:slug"
+          element={<ServiceDetail />}
         />
-      </div>
+      </Routes>
 
-      <AnimatePresence>
-        {loading && (
-          <LoadingScreen onFinish={() => setLoading(false)} />
-        )}
-      </AnimatePresence>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+      />
     </>
   );
 }

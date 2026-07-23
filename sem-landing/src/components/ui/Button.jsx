@@ -1,4 +1,9 @@
-import { motion } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
+import { useRef } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
 function Button({
@@ -10,11 +15,48 @@ function Button({
   showArrow = true,
   variant = "primary",
 }) {
+  const ref = useRef(null);
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const x = useSpring(mouseX, {
+    stiffness: 180,
+    damping: 18,
+  });
+
+  const y = useSpring(mouseY, {
+    stiffness: 180,
+    damping: 18,
+  });
+  const handleMouseMove = (e) => {
+    if (window.innerWidth < 768) return;
+
+    const rect = ref.current.getBoundingClientRect();
+
+    const xPos = e.clientX - rect.left - rect.width / 2;
+    const yPos = e.clientY - rect.top - rect.height / 2;
+
+    mouseX.set(xPos * 0.25);
+    mouseY.set(yPos * 0.25);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
   return (
     <motion.button
+      ref={ref}
+      style={{
+        x,
+        y,
+      }}
       whileHover={{ scale: 1.03, y: -2 }}
       whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.25 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       type={type}
       onClick={onClick}
       disabled={disabled}
@@ -33,11 +75,10 @@ function Button({
         py-3
         text-sm
         font-semibold
-       ${
-  variant === "primary"
-    ? "bg-[#65C18C] text-white"
-    : "border border-[#65C18C] bg-transparent text-[#65C18C] hover:bg-[#65C18C] hover:text-white"
-}
+       ${variant === "primary"
+          ? "bg-[#65C18C] text-white"
+          : "border border-[#65C18C] bg-transparent text-[#65C18C] hover:bg-[#65C18C] hover:text-white"
+        }
         shadow-lg
         transition-all
         duration-300
