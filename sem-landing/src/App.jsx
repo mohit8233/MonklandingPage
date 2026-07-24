@@ -13,6 +13,9 @@ import MouseRipple from "./components/ui/MouseRipple";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ScrollToTop from "./components/ScrollToTop";
+import PortfolioPage from "./pages/PortfolioPage";
+import ContactPage from "./pages/ContactPage";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -41,13 +44,16 @@ function App() {
     <>
       <MouseTrail />
       <MouseRipple />
+      <ScrollToTop/>
 
       <Routes>
         <Route path="/" element={<Home />} />
 
         <Route path="/about" element={<About />} />
+        <Route path="/portfolio" element={<PortfolioPage/>}/>
 
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/contact" element={<ContactPage/>}/>
 
         <Route
           path="/services/:slug"

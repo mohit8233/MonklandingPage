@@ -6,7 +6,7 @@ import WhyChooseUs from "../sections/WhyChooseUs";
 import Portfolio from "../sections/Portfolio";
 import Testimonials from "../sections/Testimonials";
 import GooglePartner from "../sections/GooglePartner";
-import  Contact  from "../sections/Contact";
+
 import Footer from "../components/layout/Footer";
 import FAQ from "../sections/FAQ";
 import Stats from "../sections/Stats";
@@ -25,7 +25,7 @@ function Home() {
         <Testimonials />
         <GooglePartner />
         <FAQ/>
-        <Contact/>
+        
       </main>
 
       <Footer />

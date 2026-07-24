@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import Button from "../ui/Button";
 
 const features = [
   "Innovation-Driven Digital Solutions",
@@ -46,7 +48,7 @@ export default function OurStory() {
               className="absolute bottom-4 right-4 rounded-2xl bg-[#2F855A] px-5 py-4 text-white shadow-xl sm:-bottom-6 sm:-right-6 sm:px-8 sm:py-6"
             >
               <h3 className="text-3xl font-bold sm:text-4xl">
-                8+
+                10+
               </h3>
 
               <p className="mt-1 text-sm text-white/80">
@@ -90,7 +92,7 @@ export default function OurStory() {
               digital experiences that deliver measurable growth.
 
             </p>
-                        {/* Features */}
+            {/* Features */}
             <div className="mt-8 space-y-4 sm:space-y-5">
               {features.map((item, index) => (
                 <motion.div
@@ -128,13 +130,24 @@ export default function OurStory() {
 
             {/* CTA */}
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <button className="w-full rounded-xl bg-[#2F855A] px-7 py-4 font-semibold text-white transition-all duration-300 hover:bg-[#276E49] sm:w-auto">
-                Learn More
-              </button>
 
-              <button className="w-full rounded-xl border border-[#2F855A] px-7 py-4 font-semibold text-[#2F855A] transition-all duration-300 hover:bg-[#2F855A] hover:text-white sm:w-auto">
+              <Button
+                as={Link}
+                to="/services"
+                className="w-full sm:w-auto"
+              >
+                Learn More
+              </Button>
+
+              <Button
+                as={Link}
+                to="/contact"
+                variant="outline"
+                className="w-full sm:w-auto"
+              >
                 Contact Us
-              </button>
+              </Button>
+
             </div>
 
             {/* Stats */}
@@ -159,7 +172,7 @@ export default function OurStory() {
                   Happy Clients
                 </p>
               </div>
-                            <div className="rounded-2xl bg-[#F8FCFA] p-5 text-center col-span-2 sm:col-span-1">
+              <div className="rounded-2xl bg-[#F8FCFA] p-5 text-center col-span-2 sm:col-span-1">
                 <h3 className="text-3xl font-bold text-[#2F855A] sm:text-4xl">
                   15+
                 </h3>

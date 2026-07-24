@@ -61,12 +61,17 @@ function Navbar() {
             Services
           </NavLink>
 
-          <a
-            href="#portfolio"
-            className="font-medium text-[#3D3B3B] transition-colors duration-300 hover:text-[#65C18C]"
+          <NavLink
+            to="/portfolio"
+            className={({ isActive }) =>
+              `font-medium transition-colors duration-300 ${isActive
+                ? "text-[#65C18C]"
+                : "text-[#3D3B3B] hover:text-[#65C18C]"
+              }`
+            }
           >
             Portfolio
-          </a>
+          </NavLink>
 
           <NavLink
             to="/about"
@@ -80,12 +85,17 @@ function Navbar() {
             About
           </NavLink>
 
-          <a
-            href="#contact"
-            className="font-medium text-[#3D3B3B] transition-colors duration-300 hover:text-[#65C18C]"
+           <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `font-medium transition-colors duration-300 ${isActive
+                ? "text-[#65C18C]"
+                : "text-[#3D3B3B] hover:text-[#65C18C]"
+              }`
+            }
           >
             Contact
-          </a>
+          </NavLink>
         </nav>
 
         {/* CTA */}
@@ -154,13 +164,17 @@ function Navbar() {
               About
             </NavLink>
 
-            <a
-              href="#contact"
-              onClick={() => setOpen(false)}
-              className="border-b py-4 text-[#3D3B3B]"
-            >
-              Contact
-            </a>
+            <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `font-medium transition-colors duration-300 ${isActive
+                ? "text-[#65C18C]"
+                : "text-[#3D3B3B] hover:text-[#65C18C]"
+              }`
+            }
+          >
+            Contact
+          </NavLink>
 
             <Button className="mt-5 w-full">
               Book Free Consultation

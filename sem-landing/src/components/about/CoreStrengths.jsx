@@ -121,24 +121,32 @@ export default function CoreStrengths() {
 
         {/* Bottom Stats */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-20 grid grid-cols-2 gap-6 rounded-3xl bg-[#2F855A] p-10 text-center text-white lg:grid-cols-4"
-        >
-          {[
-            ["1200+", "Projects Delivered"],
-            ["350+", "Happy Clients"],
-            ["25+", "Experts"],
-            ["8+", "Years Experience"],
-          ].map(([value, label]) => (
-            <div key={label}>
-              <h3 className="text-4xl font-bold">{value}</h3>
-              <p className="mt-2 text-white/80">{label}</p>
-            </div>
-          ))}
-        </motion.div>
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  viewport={{ once: true }}
+  transition={{ delay: 0.4 }}
+  className="mt-16 grid grid-cols-1 gap-5 rounded-3xl bg-[#2F855A] p-6 text-center text-white min-[380px]:grid-cols-2 sm:gap-6 sm:p-8 lg:mt-20 lg:grid-cols-4 lg:p-10"
+>
+  {[
+    ["1200+", "Projects Delivered"],
+    ["350+", "Happy Clients"],
+    ["25+", "Experts"],
+    ["10+", "Years Experience"],
+  ].map(([value, label]) => (
+    <div
+      key={label}
+      className="rounded-2xl bg-white/5 p-4 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
+    >
+      <h3 className="text-3xl font-bold sm:text-4xl">
+        {value}
+      </h3>
+
+      <p className="mt-2 text-sm text-white/80 sm:text-base">
+        {label}
+      </p>
+    </div>
+  ))}
+</motion.div>
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-
+import Button from "../ui/Button";
 const features = [
   "1200+ Successfully Delivered Projects",
   "350+ Happy Clients Worldwide",
@@ -32,7 +32,7 @@ export default function AboutHero() {
           transition={{ duration: .5 }}
           className="mb-8 flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-500"
         >
-        
+
         </motion.div>
 
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
@@ -111,27 +111,23 @@ export default function AboutHero() {
               ))}
 
             </div>
-                        {/* CTA Buttons */}
+            {/* CTA Buttons */}
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
 
-              <Link
+              <Button
+                as={Link}
                 to="/services"
-                className="group inline-flex w-full items-center justify-center rounded-2xl bg-[#2F855A] px-7 py-4 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#276E49] hover:shadow-xl sm:w-auto"
               >
                 Explore Services
+              </Button>
 
-                <ArrowRight
-                  size={18}
-                  className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </Link>
-
-              <Link
+              <Button
+                as={Link}
                 to="/contact"
-                className="inline-flex w-full items-center justify-center rounded-2xl border-2 border-[#2F855A] bg-white px-7 py-4 text-sm font-semibold text-[#2F855A] transition-all duration-300 hover:-translate-y-1 hover:bg-[#2F855A] hover:text-white sm:w-auto"
+                variant="outline"
               >
                 Contact Us
-              </Link>
+              </Button>
 
             </div>
 
@@ -214,7 +210,7 @@ export default function AboutHero() {
               <div className="rounded-3xl bg-gradient-to-r from-[#2F855A] to-[#43B76C] px-7 py-6 text-white shadow-[0_20px_45px_rgba(47,133,90,.35)]">
 
                 <h3 className="text-4xl font-extrabold">
-                  8+
+                  10+
                 </h3>
 
                 <p className="mt-2 text-sm text-white/90">
@@ -224,7 +220,7 @@ export default function AboutHero() {
               </div>
 
             </motion.div>
-                        {/* Mobile Stats */}
+            {/* Mobile Stats */}
             <div className="mt-8 lg:hidden">
 
               <div className="grid grid-cols-1 min-[340px]:grid-cols-3 gap-4">
@@ -303,7 +299,7 @@ export default function AboutHero() {
               </h4>
 
             </motion.div>
-                      </motion.div>
+          </motion.div>
 
         </div>
 
