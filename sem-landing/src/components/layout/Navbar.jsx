@@ -174,8 +174,9 @@ function Navbar() {
 
             <NavLink
               to="/contact"
+              onClick={() => setOpen(false)}
               className={({ isActive }) =>
-                `font-medium transition-colors duration-300 ${isActive
+                `border-b py-4 mb-5 font-medium transition-colors duration-300 ${isActive
                   ? "text-[#65C18C]"
                   : "text-[#3D3B3B] hover:text-[#65C18C]"
                 }`
