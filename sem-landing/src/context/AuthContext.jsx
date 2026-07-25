@@ -21,9 +21,9 @@ import {
 
 import {
   doc,
+  getDoc,
   setDoc,
   updateDoc,
-  getDoc,
   serverTimestamp,
 } from "firebase/firestore";
 
@@ -42,6 +42,7 @@ export default function AuthProvider({ children }) {
   // ===========================
   // Register
   // ===========================
+
   const register = async ({
     fullName,
     phone,
@@ -59,7 +60,13 @@ export default function AuthProvider({ children }) {
       displayName: fullName,
     });
 
-    await setDoc(doc(db, "users", result.user.uid), {
+    const userRef = doc(
+      db,
+      "users",
+      result.user.uid
+    );
+
+    await setDoc(userRef, {
       uid: result.user.uid,
       name: fullName,
       phone,
@@ -80,6 +87,7 @@ export default function AuthProvider({ children }) {
   // ===========================
   // Login
   // ===========================
+
   const login = (email, password) =>
     signInWithEmailAndPassword(
       auth,
@@ -90,11 +98,16 @@ export default function AuthProvider({ children }) {
   // ===========================
   // Google Login
   // ===========================
+
   const googleLogin = async () => {
-    const provider = new GoogleAuthProvider();
+    const provider =
+      new GoogleAuthProvider();
 
     const result =
-      await signInWithPopup(auth, provider);
+      await signInWithPopup(
+        auth,
+        provider
+      );
 
     const userRef = doc(
       db,
@@ -102,29 +115,26 @@ export default function AuthProvider({ children }) {
       result.user.uid
     );
 
-    try {
-      const snap = await getDoc(userRef);
+    const snap = await getDoc(userRef);
 
-      if (!snap.exists()) {
-        await setDoc(userRef, {
-          uid: result.user.uid,
-          name: result.user.displayName || "",
-          email: result.user.email || "",
-          phone: "",
-          photoURL:
-            result.user.photoURL || "",
-          role: "client",
-          company: "",
-          address: "",
-          bio: "",
-          createdAt: serverTimestamp(),
-        });
-      }
-    } catch (error) {
-      console.warn(
-        "Firestore unavailable:",
-        error.message
-      );
+    if (!snap.exists()) {
+      await setDoc(userRef, {
+        uid: result.user.uid,
+        name:
+          result.user.displayName || "",
+        email:
+          result.user.email || "",
+        phone: "",
+        photoURL:
+          result.user.photoURL || "",
+        role: "client",
+
+        company: "",
+        address: "",
+        bio: "",
+
+        createdAt: serverTimestamp(),
+      });
     }
 
     return result;
@@ -133,25 +143,27 @@ export default function AuthProvider({ children }) {
   // ===========================
   // Logout
   // ===========================
+
   const logout = () => signOut(auth);
 
   // ===========================
   // Forgot Password
   // ===========================
+
   const forgotPassword = (email) =>
-    sendPasswordResetEmail(auth, email);
+    sendPasswordResetEmail(
+      auth,
+      email
+    );
 
   // ===========================
   // Change Password
   // ===========================
+
   const changePassword = async (
     currentPassword,
     newPassword
   ) => {
-    if (!auth.currentUser) {
-      throw new Error("No user logged in");
-    }
-
     const credential =
       EmailAuthProvider.credential(
         auth.currentUser.email,
@@ -169,62 +181,51 @@ export default function AuthProvider({ children }) {
     );
   };
     // ===========================
-  // Update User Profile
+  // Update Profile
   // ===========================
+
   const updateUserProfile = async (data) => {
     if (!currentUser) {
       throw new Error("User not logged in");
     }
 
-    try {
-      // Update Firebase Auth Profile
-      if (data.name) {
-        await updateProfile(currentUser, {
-          displayName: data.name,
-        });
-      }
-
-      // Update Firestore
-      await updateDoc(
-        doc(db, "users", currentUser.uid),
-        {
-          ...data,
-        }
-      );
-
-      // Update Local State
-      setUserData((prev) => ({
-        ...prev,
-        ...data,
-      }));
-    } catch (error) {
-      console.error(
-        "Profile Update Error:",
-        error
-      );
-      throw error;
+    if (data.name) {
+      await updateProfile(currentUser, {
+        displayName: data.name,
+      });
     }
+
+    await updateDoc(
+      doc(db, "users", currentUser.uid),
+      {
+        ...data,
+      }
+    );
+
+    setUserData((prev) => ({
+      ...prev,
+      ...data,
+    }));
   };
 
   // ===========================
   // Auth State Listener
   // ===========================
-  useEffect(() => {
-    setLoading(true);
 
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
       async (user) => {
-        if (!user) {
-          setCurrentUser(null);
-          setUserData(null);
-          setLoading(false);
-          return;
-        }
-
-        setCurrentUser(user);
-
         try {
+          if (!user) {
+            setCurrentUser(null);
+            setUserData(null);
+            setLoading(false);
+            return;
+          }
+
+          setCurrentUser(user);
+
           const userRef = doc(
             db,
             "users",
@@ -238,8 +239,8 @@ export default function AuthProvider({ children }) {
           if (userSnap.exists()) {
             setUserData(userSnap.data());
           } else {
-            // User exists in Auth but not Firestore
-            setUserData({
+            // Create document automatically
+            const newUser = {
               uid: user.uid,
               name:
                 user.displayName || "",
@@ -251,39 +252,58 @@ export default function AuthProvider({ children }) {
               company: "",
               address: "",
               bio: "",
-            });
+              createdAt: serverTimestamp(),
+            };
+
+            await setDoc(
+              userRef,
+              newUser
+            );
+
+            setUserData(newUser);
           }
         } catch (error) {
           console.error(
-            "Firestore Error:",
+            "Auth Error:",
             error
           );
 
-          // Offline fallback
-          setUserData({
-            uid: user.uid,
-            name:
-              user.displayName || "",
-            email: user.email || "",
-            phone: "",
-            photoURL:
-              user.photoURL || "",
-            role: "client",
-            company: "",
-            address: "",
-            bio: "",
-          });
+          // Prevent app crash if Firestore is unavailable
+          if (user) {
+            setCurrentUser(user);
+
+            setUserData({
+              uid: user.uid,
+              name:
+                user.displayName || "",
+              email:
+                user.email || "",
+              phone: "",
+              photoURL:
+                user.photoURL || "",
+              role: "client",
+              company: "",
+              address: "",
+              bio: "",
+            });
+          } else {
+            setCurrentUser(null);
+            setUserData(null);
+          }
         } finally {
+          // IMPORTANT:
+          // Always stop loading.
           setLoading(false);
         }
       }
     );
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
     // ===========================
   // Context Value
   // ===========================
+
   const value = {
     currentUser,
     userData,
@@ -300,19 +320,9 @@ export default function AuthProvider({ children }) {
   };
 
   // ===========================
-  // Loading Screen
-  // ===========================
-  if (loading) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center bg-white">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
-      </div>
-    );
-  }
-
-  // ===========================
   // Provider
   // ===========================
+
   return (
     <AuthContext.Provider value={value}>
       {children}
