@@ -13,25 +13,23 @@ import {
   Loader2,
 } from "lucide-react";
 
-import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  updateProfile,
-} from "firebase/auth";
-
 import { toast } from "react-hot-toast";
-import { auth } from "../../firebase/firebase";
+
 import AuthLayout from "../../components/auth/AuthLayout";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Register() {
   const navigate = useNavigate();
 
+  const { register, googleLogin } = useAuth();
+
   const [loading, setLoading] = useState(false);
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] =
+    useState(false);
 
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showConfirm, setShowConfirm] =
+    useState(false);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -42,12 +40,15 @@ export default function Register() {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
+  // ==========================
+  // Register
+  // ==========================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -63,11 +64,16 @@ export default function Register() {
     }
 
     if (formData.password.length < 6) {
-      toast.error("Password must be at least 6 characters");
+      toast.error(
+        "Password must be at least 6 characters"
+      );
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (
+      formData.password !==
+      formData.confirmPassword
+    ) {
       toast.error("Passwords do not match");
       return;
     }
@@ -75,40 +81,49 @@ export default function Register() {
     try {
       setLoading(true);
 
-      const userCredential =
-        await createUserWithEmailAndPassword(
-          auth,
-          formData.email,
-          formData.password
-        );
-
-      await updateProfile(userCredential.user, {
-        displayName: formData.fullName,
+      await register({
+        fullName: formData.fullName,
+        phone: formData.phone,
+        email: formData.email,
+        password: formData.password,
       });
 
-      toast.success("Account Created Successfully");
+      toast.success(
+        "Account Created Successfully"
+      );
 
       navigate("/dashboard");
-    } catch (error) {
-      toast.error(error.message);
+          } catch (error) {
+      console.error(error);
+
+      toast.error(
+        error.message.replace("Firebase: ", "")
+      );
     } finally {
       setLoading(false);
     }
   };
 
+  // ==========================
+  // Google Register
+  // ==========================
   const handleGoogleRegister = async () => {
     try {
       setLoading(true);
 
-      const provider = new GoogleAuthProvider();
+      await googleLogin();
 
-      await signInWithPopup(auth, provider);
-
-      toast.success("Google Sign Up Successful");
+      toast.success(
+        "Google Sign Up Successful"
+      );
 
       navigate("/dashboard");
     } catch (error) {
-      toast.error(error.message);
+      console.error(error);
+
+      toast.error(
+        error.message.replace("Firebase: ", "")
+      );
     } finally {
       setLoading(false);
     }
@@ -123,10 +138,11 @@ export default function Register() {
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 25 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: .5 }}
+        transition={{ duration: 0.5 }}
         className="space-y-5"
       >
-                {/* Full Name */}
+
+        {/* Full Name */}
 
         <div>
 
@@ -209,8 +225,7 @@ export default function Register() {
           </div>
 
         </div>
-
-        {/* Password */}
+                {/* Password */}
 
         <div>
 
@@ -236,7 +251,9 @@ export default function Register() {
 
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() =>
+                setShowPassword(!showPassword)
+              }
             >
               {showPassword ? (
                 <EyeOff
@@ -254,7 +271,8 @@ export default function Register() {
           </div>
 
         </div>
-                {/* Confirm Password */}
+
+        {/* Confirm Password */}
 
         <div>
 
@@ -270,7 +288,11 @@ export default function Register() {
             />
 
             <input
-              type={showConfirm ? "text" : "password"}
+              type={
+                showConfirm
+                  ? "text"
+                  : "password"
+              }
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -280,7 +302,9 @@ export default function Register() {
 
             <button
               type="button"
-              onClick={() => setShowConfirm(!showConfirm)}
+              onClick={() =>
+                setShowConfirm(!showConfirm)
+              }
             >
               {showConfirm ? (
                 <EyeOff
@@ -347,11 +371,9 @@ export default function Register() {
 
           <span>
             I agree to the{" "}
-
             <span className="cursor-pointer font-semibold text-[#2F855A] hover:underline">
               Terms & Conditions
             </span>
-
           </span>
 
         </label>
@@ -370,13 +392,11 @@ export default function Register() {
                 size={20}
                 className="animate-spin"
               />
-
               Creating Account...
             </>
           ) : (
             <>
               Create Account
-
               <ArrowRight
                 size={18}
                 className="transition group-hover:translate-x-1"
@@ -385,23 +405,18 @@ export default function Register() {
           )}
 
         </button>
-
-        {/* Divider */}
+                {/* Divider */}
 
         <div className="relative py-2">
 
           <div className="absolute inset-0 flex items-center">
-
             <div className="w-full border-t border-slate-200" />
-
           </div>
 
           <div className="relative flex justify-center">
-
             <span className="bg-white px-4 text-sm text-slate-500">
               OR
             </span>
-
           </div>
 
         </div>
@@ -443,7 +458,9 @@ export default function Register() {
           </p>
 
         </div>
-              </motion.form>
+
+      </motion.form>
+
     </AuthLayout>
   );
 }
