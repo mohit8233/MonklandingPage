@@ -85,7 +85,7 @@ function Navbar() {
             About
           </NavLink>
 
-           <NavLink
+          <NavLink
             to="/contact"
             className={({ isActive }) =>
               `font-medium transition-colors duration-300 ${isActive
@@ -100,7 +100,12 @@ function Navbar() {
 
         {/* CTA */}
         <div className="hidden lg:block">
-          <Button>Book Free Consultation</Button>
+          <Button
+            as={NavLink}
+            to="/login"
+          >
+            Book Free Consultation
+          </Button>
         </div>
 
         {/* Mobile Button */}
@@ -143,13 +148,16 @@ function Navbar() {
               Services
             </NavLink>
 
-            <a
-              href="#portfolio"
+            <NavLink
+              to="/portfolio"
               onClick={() => setOpen(false)}
-              className="border-b py-4 text-[#3D3B3B]"
+              className={({ isActive }) =>
+                `border-b py-4 ${isActive ? "text-[#65C18C]" : "text-[#3D3B3B]"
+                }`
+              }
             >
               Portfolio
-            </a>
+            </NavLink>
 
             <NavLink
               to="/about"
@@ -165,18 +173,21 @@ function Navbar() {
             </NavLink>
 
             <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              `font-medium transition-colors duration-300 ${isActive
-                ? "text-[#65C18C]"
-                : "text-[#3D3B3B] hover:text-[#65C18C]"
-              }`
-            }
-          >
-            Contact
-          </NavLink>
+              to="/contact"
+              className={({ isActive }) =>
+                `font-medium transition-colors duration-300 ${isActive
+                  ? "text-[#65C18C]"
+                  : "text-[#3D3B3B] hover:text-[#65C18C]"
+                }`
+              }
+            >
+              Contact
+            </NavLink>
 
-            <Button className="mt-5 w-full">
+            <Button
+              as={NavLink}
+              to="/login"
+            >
               Book Free Consultation
             </Button>
           </div>

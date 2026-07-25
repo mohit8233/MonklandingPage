@@ -146,7 +146,7 @@ export default function CoreStrengths() {
       </p>
     </div>
   ))}
-</motion.div>
+</motion.div>  
       </div>
     </section>
   );
