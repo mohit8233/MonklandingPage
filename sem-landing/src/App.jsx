@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route } from "react-router-dom";
 
@@ -37,127 +37,87 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = loading ? "hidden" : "auto";
-  }, [loading]);
-
-  if (loading) {
-    return (
-      <AnimatePresence>
-        <LoadingScreen />
-      </AnimatePresence>
-    );
-  }
-
   return (
     <>
-      <MouseTrail />
-      <MouseRipple />
-      <ScrollToTop />
-
-      <Routes>
-
-        {/* Website Routes */}
-
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/services/:slug" element={<ServiceDetail />} />
-        <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-
-        {/* Public Auth Routes */}
-
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-
-        <Route
-          path="/register"
-          element={
-            <PublicRoute>
-              <Register />
-            </PublicRoute>
-          }
-        />
-
-        <Route
-          path="/forgot-password"
-          element={
-            <PublicRoute>
-              <ForgotPassword />
-            </PublicRoute>
-          }
-        />
-
-        {/* User Dashboard */}
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route
-            index
-            element={<Dashboard />}
+      <AnimatePresence mode="wait">
+        {loading && (
+          <LoadingScreen
+            onFinish={() => setLoading(false)}
           />
+        )}
+      </AnimatePresence>
 
-          <Route
-            path="profile"
-            element={<Profile />}
+      {!loading && (
+        <>
+          <MouseTrail />
+          <MouseRipple />
+          <ScrollToTop />
+
+          <Routes>
+            {/* Website Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/services/:slug" element={<ServiceDetail />} />
+            <Route path="/portfolio" element={<PortfolioPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+
+            {/* Public Auth Routes */}
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
+
+            <Route
+              path="/register"
+              element={
+                <PublicRoute>
+                  <Register />
+                </PublicRoute>
+              }
+            />
+
+            <Route
+              path="/forgot-password"
+              element={
+                <PublicRoute>
+                  <ForgotPassword />
+                </PublicRoute>
+              }
+            />
+
+            {/* Dashboard */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Dashboard />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="requests" element={<MyRequests />} />
+              <Route path="consultations" element={<Consultations />} />
+              <Route path="quotes" element={<Quotes />} />
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
+          </Routes>
+
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            newestOnTop
+            pauseOnHover
+            theme="colored"
           />
-
-          <Route
-            path="requests"
-            element={<MyRequests />}
-          />
-
-          <Route
-            path="consultations"
-            element={<Consultations />}
-          />
-
-          <Route
-            path="quotes"
-            element={<Quotes />}
-          />
-
-          <Route
-            path="notifications"
-            element={<Notifications />}
-          />
-
-          <Route
-            path="settings"
-            element={<Settings />}
-          />
-        </Route>
-
-      </Routes>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        newestOnTop
-        pauseOnHover
-        theme="colored"
-      />
+        </>
+      )}
     </>
   );
 }

@@ -7,8 +7,7 @@ background:#fff;
 
 html {
   scroll-behavior: smooth;
-};
-
+}
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -17,11 +16,7 @@ html {
   scrollbar-width: none;
 }
 
-/* Smooth Scroll */
 
-html {
-  scroll-behavior: smooth;
-}
 
 /* Sidebar Scrollbar */
 
