@@ -1,92 +1,154 @@
 import { Menu, Bell, Search } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
+import { useEffect, useRef, useState } from "react";
+
+import NotificationDropdown from "./NotificationDropdown";
+
+import { listenNotifications } from "../../firebase/notificationService";
+
 export default function Topbar({ setOpen }) {
-  const { userData } = useAuth();
+    const { userData, currentUser } = useAuth();
 
-  return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur-md">
+    const [notifications, setNotifications] = useState([]);
 
-      <div className="mx-auto flex min-h-[72px] items-center justify-between gap-3 px-3 py-3 min-[360px]:px-4 sm:px-6 lg:px-8">
+    const [openNotification, setOpenNotification] = useState(false);
 
-        {/* Left */}
+    const dropdownRef = useRef(null);
+    useEffect(() => {
+        if (!currentUser) return;
 
-        <div className="flex min-w-0 flex-1 items-center gap-3">
+        const unsubscribe = listenNotifications(
+            currentUser.uid,
+            (data) => {
+                setNotifications(data);
+            }
+        );
 
-          <button
-            onClick={() => setOpen(true)}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 transition hover:bg-slate-100 lg:hidden"
-          >
-            <Menu size={20} />
-          </button>
+        return unsubscribe;
+    }, [currentUser]);
 
-          <div className="min-w-0">
+    useEffect(() => {
+        function handleClick(e) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(e.target)
+            ) {
+                setOpenNotification(false);
+            }
+        }
 
-            <h1 className="truncate text-lg font-bold text-slate-800 min-[360px]:text-xl sm:text-2xl">
+        document.addEventListener("mousedown", handleClick);
 
-              Dashboard
+        return () =>
+            document.removeEventListener("mousedown", handleClick);
+    }, []);
+    const unreadCount = notifications.filter(
+        (item) => !item.read
+    ).length;
+    return (
+        <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur-md">
 
-            </h1>
+            <div className="mx-auto flex min-h-[72px] items-center justify-between gap-3 px-3 py-3 min-[360px]:px-4 sm:px-6 lg:px-8">
 
-            <p className="truncate text-[11px] text-slate-500 min-[360px]:text-xs sm:text-sm">
+                {/* Left */}
 
-              Welcome back,
+                <div className="flex min-w-0 flex-1 items-center gap-3">
 
-              <span className="ml-1 font-semibold text-emerald-600">
+                    <button
+                        onClick={() => setOpen(true)}
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 transition hover:bg-slate-100 lg:hidden"
+                    >
+                        <Menu size={20} />
+                    </button>
 
-                {userData?.name || "User"}
+                    <div className="min-w-0">
 
-              </span>
+                        <h1 className="truncate text-lg font-bold text-slate-800 min-[360px]:text-xl sm:text-2xl">
 
-            </p>
+                            Dashboard
 
-          </div>
+                        </h1>
 
-        </div>
+                        <p className="truncate text-[11px] text-slate-500 min-[360px]:text-xs sm:text-sm">
 
-        {/* Right */}
+                            Welcome back,
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+                            <span className="ml-1 font-semibold text-emerald-600">
 
-          {/* Search */}
+                                {userData?.name || "User"}
 
-          <div className="relative hidden xl:block">
+                            </span>
 
-            <Search
-              size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-            />
+                        </p>
 
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-64 rounded-xl border border-slate-200 bg-slate-50 py-2 pl-10 pr-4 outline-none transition focus:border-emerald-500 focus:bg-white"
-            />
+                    </div>
 
-          </div>
+                </div>
 
-          {/* Notification */}
+                {/* Right */}
 
-          <button className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 transition hover:bg-slate-100 sm:h-11 sm:w-11">
+                <div className="flex shrink-0 items-center gap-2 sm:gap-3">
 
-            <Bell size={20} />
+                    {/* Search */}
 
-            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500"></span>
+                    <div className="relative hidden xl:block">
 
-          </button>
+                        <Search
+                            size={18}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                        />
 
-          {/* Avatar */}
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            className="w-64 rounded-xl border border-slate-200 bg-slate-50 py-2 pl-10 pr-4 outline-none transition focus:border-emerald-500 focus:bg-white"
+                        />
 
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-sm font-bold text-white shadow-md sm:h-11 sm:w-11 sm:text-base">
+                    </div>
 
-            {userData?.name?.charAt(0)?.toUpperCase() || "U"}
+                    {/* Notification */}
 
-          </div>
+                    <div className="relative" ref={dropdownRef}>
 
-        </div>
+                        <button
+                            onClick={() =>
+                                setOpenNotification(!openNotification)
+                            }
+                            className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 transition hover:bg-slate-100 sm:h-11 sm:w-11"
+                        >
+                            <Bell
+                                size={20}
+                                className={unreadCount ? "animate-bounce" : ""}
+                            />
 
-      </div>
+                            {unreadCount > 0 && (
+                                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                                    {unreadCount}
+                                </span>
+                            )}
+                        </button>
 
-    </header>
-  );
+                        <NotificationDropdown
+                            open={openNotification}
+                            notifications={notifications}
+                            onClose={() => setOpenNotification(false)}
+                        />
+
+                    </div>
+
+                    {/* Avatar */}
+
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-sm font-bold text-white shadow-md sm:h-11 sm:w-11 sm:text-base">
+
+                        {userData?.name?.charAt(0)?.toUpperCase() || "U"}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+    );
 }

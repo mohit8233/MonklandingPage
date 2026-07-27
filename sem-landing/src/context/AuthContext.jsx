@@ -29,6 +29,7 @@ import {
 
 import { auth } from "../firebase/firebase";
 import db from "../firebase/firestore";
+import { addNotification } from "../firebase/notificationService";
 
 const AuthContext = createContext();
 
@@ -49,114 +50,164 @@ export default function AuthProvider({ children }) {
     email,
     password,
   }) => {
-    const result =
-      await createUserWithEmailAndPassword(
+    try {
+      const result =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+      await updateProfile(result.user, {
+        displayName: fullName,
+      });
+
+      const userRef = doc(
+        db,
+        "users",
+        result.user.uid
+      );
+
+      await setDoc(userRef, {
+        uid: result.user.uid,
+        name: fullName,
+        phone,
+        email,
+        photoURL: "",
+        role: "client",
+        company: "",
+        address: "",
+        bio: "",
+        createdAt: serverTimestamp(),
+      });
+
+      await addNotification({
+        uid: result.user.uid,
+        title: "Welcome 🎉",
+        message:
+          "Your account has been created successfully.",
+        type: "success",
+      });
+
+      console.log("User & Notification Created");
+
+      return result;
+    } catch (error) {
+      console.error("Register Error:", error);
+      throw error;
+    }
+  };
+    // ===========================
+  // Login
+  // ===========================
+
+  const login = async (email, password) => {
+    try {
+      const result = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
 
-    await updateProfile(result.user, {
-      displayName: fullName,
-    });
+      await addNotification({
+        uid: result.user.uid,
+        title: "Login Successful",
+        message: "Welcome back to your dashboard.",
+        type: "success",
+      });
 
-    const userRef = doc(
-      db,
-      "users",
-      result.user.uid
-    );
-
-    await setDoc(userRef, {
-      uid: result.user.uid,
-      name: fullName,
-      phone,
-      email,
-      photoURL: "",
-      role: "client",
-
-      company: "",
-      address: "",
-      bio: "",
-
-      createdAt: serverTimestamp(),
-    });
-
-    return result;
+      return result;
+    } catch (error) {
+      console.error("Login Error:", error);
+      throw error;
+    }
   };
-
-  // ===========================
-  // Login
-  // ===========================
-
-  const login = (email, password) =>
-    signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
 
   // ===========================
   // Google Login
   // ===========================
 
   const googleLogin = async () => {
-    const provider =
-      new GoogleAuthProvider();
+    try {
+      const provider = new GoogleAuthProvider();
 
-    const result =
-      await signInWithPopup(
+      const result = await signInWithPopup(
         auth,
         provider
       );
 
-    const userRef = doc(
-      db,
-      "users",
-      result.user.uid
-    );
+      const userRef = doc(
+        db,
+        "users",
+        result.user.uid
+      );
 
-    const snap = await getDoc(userRef);
+      const userSnap = await getDoc(userRef);
 
-    if (!snap.exists()) {
-      await setDoc(userRef, {
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          uid: result.user.uid,
+          name: result.user.displayName || "",
+          email: result.user.email || "",
+          phone: "",
+          photoURL: result.user.photoURL || "",
+          role: "client",
+          company: "",
+          address: "",
+          bio: "",
+          createdAt: serverTimestamp(),
+        });
+      }
+
+      await addNotification({
         uid: result.user.uid,
-        name:
-          result.user.displayName || "",
-        email:
-          result.user.email || "",
-        phone: "",
-        photoURL:
-          result.user.photoURL || "",
-        role: "client",
-
-        company: "",
-        address: "",
-        bio: "",
-
-        createdAt: serverTimestamp(),
+        title: "Google Login",
+        message: "Logged in successfully using Google.",
+        type: "success",
       });
-    }
 
-    return result;
+      return result;
+    } catch (error) {
+      console.error("Google Login Error:", error);
+      throw error;
+    }
   };
 
   // ===========================
   // Logout
   // ===========================
 
-  const logout = () => signOut(auth);
+  const logout = async () => {
+    try {
+      if (currentUser) {
+        await addNotification({
+          uid: currentUser.uid,
+          title: "Logout",
+          message: "You have logged out successfully.",
+          type: "info",
+        });
+      }
+
+      await signOut(auth);
+    } catch (error) {
+      console.error("Logout Error:", error);
+      throw error;
+    }
+  };
 
   // ===========================
   // Forgot Password
   // ===========================
 
-  const forgotPassword = (email) =>
-    sendPasswordResetEmail(
-      auth,
-      email
-    );
-
-  // ===========================
+  const forgotPassword = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+      console.error("Forgot Password Error:", error);
+      throw error;
+    }
+  };
+    // ===========================
   // Change Password
   // ===========================
 
@@ -164,48 +215,92 @@ export default function AuthProvider({ children }) {
     currentPassword,
     newPassword
   ) => {
-    const credential =
-      EmailAuthProvider.credential(
-        auth.currentUser.email,
-        currentPassword
+    try {
+      const credential =
+        EmailAuthProvider.credential(
+          auth.currentUser.email,
+          currentPassword
+        );
+
+      await reauthenticateWithCredential(
+        auth.currentUser,
+        credential
       );
 
-    await reauthenticateWithCredential(
-      auth.currentUser,
-      credential
-    );
+      await updatePassword(
+        auth.currentUser,
+        newPassword
+      );
 
-    await updatePassword(
-      auth.currentUser,
-      newPassword
-    );
+      await addNotification({
+        uid: currentUser.uid,
+        title: "Password Updated",
+        message:
+          "Your password has been changed successfully.",
+        type: "success",
+      });
+    } catch (error) {
+      console.error(
+        "Change Password Error:",
+        error
+      );
+      throw error;
+    }
   };
-    // ===========================
+
+  // ===========================
   // Update Profile
   // ===========================
 
-  const updateUserProfile = async (data) => {
-    if (!currentUser) {
-      throw new Error("User not logged in");
-    }
-
-    if (data.name) {
-      await updateProfile(currentUser, {
-        displayName: data.name,
-      });
-    }
-
-    await updateDoc(
-      doc(db, "users", currentUser.uid),
-      {
-        ...data,
+  const updateUserProfile = async (
+    data
+  ) => {
+    try {
+      if (!currentUser) {
+        throw new Error(
+          "User not logged in"
+        );
       }
-    );
 
-    setUserData((prev) => ({
-      ...prev,
-      ...data,
-    }));
+      if (data.name) {
+        await updateProfile(
+          currentUser,
+          {
+            displayName: data.name,
+          }
+        );
+      }
+
+      await updateDoc(
+        doc(
+          db,
+          "users",
+          currentUser.uid
+        ),
+        {
+          ...data,
+        }
+      );
+
+      setUserData((prev) => ({
+        ...prev,
+        ...data,
+      }));
+
+      await addNotification({
+        uid: currentUser.uid,
+        title: "Profile Updated",
+        message:
+          "Your profile has been updated successfully.",
+        type: "profile",
+      });
+    } catch (error) {
+      console.error(
+        "Profile Update Error:",
+        error
+      );
+      throw error;
+    }
   };
 
   // ===========================
@@ -213,90 +308,94 @@ export default function AuthProvider({ children }) {
   // ===========================
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      async (user) => {
-        try {
-          if (!user) {
-            setCurrentUser(null);
-            setUserData(null);
-            setLoading(false);
-            return;
-          }
+    const unsubscribe =
+      onAuthStateChanged(
+        auth,
+        async (user) => {
+          try {
+            if (!user) {
+              setCurrentUser(null);
+              setUserData(null);
+              setLoading(false);
+              return;
+            }
 
-          setCurrentUser(user);
-
-          const userRef = doc(
-            db,
-            "users",
-            user.uid
-          );
-
-          const userSnap = await getDoc(
-            userRef
-          );
-
-          if (userSnap.exists()) {
-            setUserData(userSnap.data());
-          } else {
-            // Create document automatically
-            const newUser = {
-              uid: user.uid,
-              name:
-                user.displayName || "",
-              email: user.email || "",
-              phone: "",
-              photoURL:
-                user.photoURL || "",
-              role: "client",
-              company: "",
-              address: "",
-              bio: "",
-              createdAt: serverTimestamp(),
-            };
-
-            await setDoc(
-              userRef,
-              newUser
-            );
-
-            setUserData(newUser);
-          }
-        } catch (error) {
-          console.error(
-            "Auth Error:",
-            error
-          );
-
-          // Prevent app crash if Firestore is unavailable
-          if (user) {
             setCurrentUser(user);
 
-            setUserData({
-              uid: user.uid,
-              name:
-                user.displayName || "",
-              email:
-                user.email || "",
-              phone: "",
-              photoURL:
-                user.photoURL || "",
-              role: "client",
-              company: "",
-              address: "",
-              bio: "",
-            });
-          } else {
-            setCurrentUser(null);
-            setUserData(null);
+            const userRef = doc(
+              db,
+              "users",
+              user.uid
+            );
+
+            const userSnap =
+              await getDoc(userRef);
+
+            if (userSnap.exists()) {
+              setUserData(
+                userSnap.data()
+              );
+            } else {
+              const newUser = {
+                uid: user.uid,
+                name:
+                  user.displayName ||
+                  "",
+                email:
+                  user.email || "",
+                phone: "",
+                photoURL:
+                  user.photoURL ||
+                  "",
+                role: "client",
+                company: "",
+                address: "",
+                bio: "",
+                createdAt:
+                  serverTimestamp(),
+              };
+
+              await setDoc(
+                userRef,
+                newUser
+              );
+
+              setUserData(newUser);
+            }
+          } catch (error) {
+            console.error(
+              "Auth State Error:",
+              error
+            );
+
+            if (user) {
+              setCurrentUser(user);
+
+              setUserData({
+                uid: user.uid,
+                name:
+                  user.displayName ||
+                  "",
+                email:
+                  user.email || "",
+                phone: "",
+                photoURL:
+                  user.photoURL ||
+                  "",
+                role: "client",
+                company: "",
+                address: "",
+                bio: "",
+              });
+            } else {
+              setCurrentUser(null);
+              setUserData(null);
+            }
+          } finally {
+            setLoading(false);
           }
-        } finally {
-          // IMPORTANT:
-          // Always stop loading.
-          setLoading(false);
         }
-      }
-    );
+      );
 
     return () => unsubscribe();
   }, []);
@@ -305,17 +404,26 @@ export default function AuthProvider({ children }) {
   // ===========================
 
   const value = {
+    // Current User
     currentUser,
+
+    // Firestore User Data
     userData,
+
+    // Loading State
     loading,
 
+    // Authentication
     register,
     login,
     googleLogin,
     logout,
 
+    // Password
     forgotPassword,
     changePassword,
+
+    // Profile
     updateUserProfile,
   };
 
@@ -325,7 +433,7 @@ export default function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 }
